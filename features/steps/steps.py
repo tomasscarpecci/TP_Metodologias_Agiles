@@ -4,6 +4,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 import time
+import os
+from selenium.webdriver.chrome.options import Options
 
 
 def _parse_letters(letras_csv):
@@ -18,6 +20,15 @@ def _parse_letters(letras_csv):
 
 @given('el servidor Flask está corriendo con la palabra "{palabra}"')
 def step_open_browser(context, palabra=None):
+    chrome_options = Options()
+
+    # Si estamos en GitHub Actions, usar headless
+    if os.getenv("CI") == "true":
+        chrome_options.add_argument("--headless=new")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--window-size=1920,1080")
     service = Service(ChromeDriverManager().install())
     context.driver = webdriver.Chrome(service=service)
 
