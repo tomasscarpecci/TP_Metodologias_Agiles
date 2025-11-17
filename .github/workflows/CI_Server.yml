@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,30 +21,31 @@ jobs:
 
     - name: Instalar dependencias
       run: |
-        python -m venv venv
-        source venv/bin/activate
         pip install --upgrade pip
-        pip install pytest flake8 coverage wordfreq
-        pip install pytest pytest-cov flake8 coverage wordfreq
+        pip install pytest pytest-cov flake8 coverage wordfreq behave
 
     - name: Revisar estilo de código
       run: |
-        source venv/bin/activate
         flake8 ahorcado.py --max-line-length=100
 
-    - name: Ejecutar tests
+    - name: Ejecutar tests unitarios con coverage
       run: |
-        source venv/bin/activate
-        pytest --maxfail=1 --disable-warnings --cov=ahorcado --cov-report=term-missing
+        coverage run -m pytest --maxfail=1 --disable-warnings
 
-    - name: Generar reporte de cobertura
+    - name: Ejecutar ATDD (Behave) con coverage
       run: |
-        source venv/bin/activate
+        coverage run -a -m behave
+
+    - name: Mostrar reporte de cobertura
+      run: |
+        coverage report -m
+
+    - name: Generar reporte XML de cobertura
+      run: |
         coverage xml
 
     - name: Guardar reporte de cobertura
       uses: actions/upload-artifact@v4
       with:
         name: coverage-report
-        path: coverage.xml    
-    
+        path: coverage.xml
