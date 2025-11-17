@@ -1,5 +1,9 @@
 Feature: Juego del Ahorcado - Interfaz Web
 
+  Scenario: Iniciar sin palabra
+    Given el servidor Flask está corriendo con la palabra ""
+    Then cierro el navegador
+  
   Scenario: Gano la partida sin errores
     Given el servidor Flask está corriendo con la palabra "sol"
     When ingreso "sol" en el campo de intento y presiono el botón
@@ -56,4 +60,10 @@ Feature: Juego del Ahorcado - Interfaz Web
     And ingreso "i" en el campo de intento y presiono el botón
     Then el juego debe estar derrotado
     And las vidas deben ser 0
+    And cierro el navegador
+
+  Scenario: Ejecución del step ingreso las letras en CSV
+    Given el servidor Flask está corriendo con la palabra "sol"
+    When ingreso las letras "s, o, l"
+    Then el juego debe estar ganado
     And cierro el navegador
