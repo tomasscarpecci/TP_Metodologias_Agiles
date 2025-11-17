@@ -22,7 +22,7 @@ jobs:
     - name: Instalar dependencias
       run: |
         pip install --upgrade pip
-        pip install pytest pytest-cov flake8 coverage wordfreq behave selenium
+        pip install pytest pytest-cov flake8 coverage wordfreq behave selenium webdriver_manager
 
     - name: Revisar estilo de código
       run: |
