@@ -30,7 +30,7 @@ def step_open_browser(context, palabra=None):
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--window-size=1920,1080")
     service = Service(ChromeDriverManager().install())
-    context.driver = webdriver.Chrome(service=service)
+    context.driver = webdriver.Chrome(service=service, options=options)
 
     if palabra:
         context.driver.get(f"http://127.0.0.1:5000/set_palabra/{palabra}")
