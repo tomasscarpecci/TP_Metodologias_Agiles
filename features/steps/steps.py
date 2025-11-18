@@ -39,7 +39,8 @@ def step_open_browser(context, palabra=None):
         context.driver.get("http://127.0.0.1:5000")
         time.sleep(1)
 
-@when('ingreso "{texto}" en el campo de intento y presiono el botón')
+
+@when('ingreso la letra "{letras_csv}" en el campo de intento y presiono el botón')
 def step_try_letters(context, letras_csv):
     letras = _parse_letters(letras_csv)
     for letra in letras:
@@ -49,6 +50,16 @@ def step_try_letters(context, letras_csv):
         button = context.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
         button.click()
         time.sleep(0.5)
+
+
+@when('ingreso la palabra "{texto}" en el campo de intento y presiono el botón')
+def step_input_text(context, texto):
+    input_box = context.driver.find_element(By.NAME, "intento")
+    input_box.clear()
+    input_box.send_keys(texto)
+    button = context.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
+    button.click()
+    time.sleep(0.5)
 
 
 @then('el juego debe estar ganado')
@@ -87,14 +98,6 @@ def step_then_vidas(context, vidas):
     assert corazones == vidas, (
         f"Esperaba {vidas} vidas, pero se encontraron {corazones} en: {vidas_text}"
     )
-
-
-@then('la cantidad de letras erróneas debe ser {cant:d}')
-def step_then_erroneas(context, cant):
-    errores_text = context.driver.find_element(By.XPATH, "//p[contains(text(), 'Erróneas')]").text
-    letras = errores_text.split(":")[-1].strip()
-    num = len(letras.split()) if letras else 0
-    assert num == cant, f"Esperaba {cant} letras erróneas, pero hay {num}"
 
 
 @then("cierro el navegador")
