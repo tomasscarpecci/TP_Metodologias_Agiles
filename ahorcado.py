@@ -4,7 +4,7 @@ from recursos.lista_palabras import lista_palabras
 
 
 class JuegoAhorcado:
-    def __init__(self, palabra):
+    def __init__(self, palabra=None):
         # Si no se pasa palabra, tomar una aleatoria
         if palabra:
             self.palabra = palabra.lower()
@@ -26,14 +26,8 @@ class JuegoAhorcado:
         return random.choice(lista_palabras)
 
     def reiniciar_con_palabra(self, nueva_palabra):
-        if not nueva_palabra:
-            raise ValueError("La palabra no puede estar vacía.")
-
-        if " " in nueva_palabra:
-            raise ValueError("La palabra no puede contener espacios.")
-
-        if not all(ch in string.ascii_letters for ch in nueva_palabra):
-            raise ValueError("La palabra solo puede contener letras.")
+        # MEJORA: Reutilizamos la lógica de validación existente
+        self.validar_palabra(nueva_palabra)
 
         self.palabra = nueva_palabra.lower()
         self.vidas = 6
