@@ -5,6 +5,7 @@ from recursos.lista_palabras import lista_palabras
 
 class JuegoAhorcado:
     def __init__(self, palabra):
+        # Si no se pasa palabra, tomar una aleatoria
         if palabra:
             self.palabra = palabra.lower()
         else:
@@ -18,52 +19,56 @@ class JuegoAhorcado:
         self.ganado = False
         self.terminado = False
 
-    def reiniciar_con_palabra(self, nueva_palabra):
-        if " " in nueva_palabra:
-            raise ValueError("La palabra no puede contener espacios.")
-
-        self.palabra = nueva_palabra.lower()
-        self.vidas = 6
-        self.letras_acertadas = []
-        self.letras_erroneas = []
-        self.ganado = False
-
     @staticmethod
     def seleccionar_palabra_aleatoria(lista_palabras):
         if not lista_palabras:
             raise ValueError("La lista de palabras no puede estar vacía.")
         return random.choice(lista_palabras)
 
+    def reiniciar_con_palabra(self, nueva_palabra):
+        if not nueva_palabra:
+            raise ValueError("La palabra no puede estar vacía.")
+
+        if " " in nueva_palabra:
+            raise ValueError("La palabra no puede contener espacios.")
+
+        if not all(ch in string.ascii_letters for ch in nueva_palabra):
+            raise ValueError("La palabra solo puede contener letras.")
+
+        self.palabra = nueva_palabra.lower()
+        self.vidas = 6
+        self.letras_acertadas = []
+        self.letras_erroneas = []
+        self.ganado = False
+        self.terminado = False
+
     def adivinar_letra(self, letra):
         if self.esta_terminado():
             raise RuntimeError("El juego ya terminó.")
 
         if not self.validar_letra(letra):
-            raise ValueError(
-                "La letra debe ser un caracter alfabético único."
-            )
+            raise ValueError("La letra debe ser un caracter alfabético único.")
 
         letra = letra.lower()
 
+        # Evitar repetir intentos
         if letra in self.letras_acertadas or letra in self.letras_erroneas:
             raise ValueError("Ya intentaste esa letra.")
 
+        # Caso letra correcta
         if letra in self.palabra:
-            if letra not in self.letras_acertadas:
-                self.letras_acertadas.append(letra)
+            self.letras_acertadas.append(letra)
 
-            if all(
-                ltr in self.letras_acertadas
-                for ltr in set(self.palabra)
-            ):
+            # Ver si ya ganó
+            if all(ltr in self.letras_acertadas for ltr in set(self.palabra)):
                 self.ganado = True
+                self.terminado = True
 
             return True
 
-        if letra not in self.letras_erroneas:
-            self.letras_erroneas.append(letra)
-            self.quitar_vida()
-
+        # Caso letra incorrecta
+        self.letras_erroneas.append(letra)
+        self.quitar_vida()
         return False
 
     def adivinar_palabra(self, intento):
@@ -72,7 +77,7 @@ class JuegoAhorcado:
 
         self.validar_palabra(intento)
 
-        if intento.lower() == self.palabra.lower():
+        if intento.lower() == self.palabra:
             self.ganado = True
             self.terminado = True
             return True
@@ -103,7 +108,12 @@ class JuegoAhorcado:
         return len(letra) == 1 and letra in string.ascii_letters
 
     def esta_terminado(self):
-        return self.esta_derrotado() or self.esta_ganado()
+        # Se evalúa explícitamente para cobertura completa
+        if self.esta_derrotado():
+            return True
+        if self.esta_ganado():
+            return True
+        return False
 
     def validar_palabra(self, palabra):
         if not palabra:
