@@ -51,22 +51,18 @@ class JuegoAhorcado:
 
         letra = letra.lower()
 
-        # Evitar repetir intentos
         if letra in self.letras_acertadas or letra in self.letras_erroneas:
             raise ValueError("Ya intentaste esa letra.")
 
-        # Caso letra correcta
         if letra in self.palabra:
             self.letras_acertadas.append(letra)
 
-            # Ver si ya ganó
             if all(ltr in self.letras_acertadas for ltr in set(self.palabra)):
                 self.ganado = True
                 self.terminado = True
 
             return True
 
-        # Caso letra incorrecta
         self.letras_erroneas.append(letra)
         self.quitar_vida()
         return False
@@ -108,7 +104,6 @@ class JuegoAhorcado:
         return len(letra) == 1 and letra in string.ascii_letters
 
     def esta_terminado(self):
-        # Se evalúa explícitamente para cobertura completa
         if self.esta_derrotado():
             return True
         if self.esta_ganado():
