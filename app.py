@@ -15,6 +15,7 @@ def iniciar_juego(palabra=None):
     session["imagen"] = f"img/ahorcado{6 - juego.vidas}.png"
     return juego
 
+
 def cargar_juego():
     palabra = session.get("palabra")
     if not palabra:
@@ -88,7 +89,7 @@ def reiniciar():
 
 
 def formatear_palabra(juego):
-    # Corrección E501: Se divide la línea larga en varias
+
     display = [
         char if char in juego.letras_acertadas else "_"
         for char in juego.palabra
