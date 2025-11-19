@@ -26,7 +26,6 @@ class JuegoAhorcado:
         return random.choice(lista_palabras)
 
     def reiniciar_con_palabra(self, nueva_palabra):
-        # MEJORA: Reutilizamos la lógica de validación existente
         self.validar_palabra(nueva_palabra)
 
         self.palabra = nueva_palabra.lower()

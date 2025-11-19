@@ -2,7 +2,7 @@ import pytest
 from ahorcado import JuegoAhorcado
 
 
-# --- INICIO DEL JUEGO ---
+# Inicio del juego
 def test_inicio_juego_correctamente():
     juego = JuegoAhorcado("python")
     assert juego.palabra == "python"
@@ -28,7 +28,7 @@ def test_no_acepta_lista_vacia_de_palabras():
         JuegoAhorcado.seleccionar_palabra_aleatoria([])
 
 
-# --- ADIVINAR LETRAS ---
+# Adivinar letra
 def test_adivino_letra_en_palabra():
     juego = JuegoAhorcado("python")
     resultado = juego.adivinar_letra("p")
@@ -77,7 +77,7 @@ def test_adivinar_letra_invalida_falla():
         juego.adivinar_letra("aa")
 
 
-# --- ADIVINAR PALABRA ---
+# Adivinar palabra
 def test_adivinar_palabra_correcta():
     juego = JuegoAhorcado("python")
     assert juego.adivinar_palabra("python") is True
@@ -113,7 +113,7 @@ def test_adivinar_palabra_con_caracteres_invalidos():
         juego.adivinar_palabra("pyth0n")
 
 
-# --- ESTADOS DEL JUEGO (GANAR/PERDER) ---
+# Estados del juego (ganar/perder)
 def test_no_se_puede_jugar_si_esta_ganado():
     juego = JuegoAhorcado("sol")
     juego.adivinar_palabra("sol")  # Ganamos
@@ -140,7 +140,7 @@ def test_derrota_al_llegar_a_cero_vidas():
     assert juego.esta_terminado() is True
 
 
-# --- MOSTRAR LETRAS ---
+# Mostrar letras acertadas y erróneas
 def test_mostrar_letras_acertadas():
     juego = JuegoAhorcado("python")
     juego.adivinar_letra("p")
@@ -155,7 +155,7 @@ def test_mostrar_letras_erroneas():
     assert juego.mostrar_letras_erroneas() == ["z", "q"]
 
 
-# --- VALIDACIONES AUXILIARES ---
+# Validaciones auxiliares
 def test_valido_letra_alfabetica():
     juego = JuegoAhorcado("python")
     assert juego.validar_letra("a") is True
@@ -170,7 +170,7 @@ def test_no_valido_letra_no_alfabetica():
     assert juego.validar_letra("") is False
 
 
-# --- REINICIO DEL JUEGO ---
+# Reinicio del juego
 def test_reiniciar_con_nueva_palabra():
     juego = JuegoAhorcado("python")
     juego.adivinar_letra("y")  # Jugamos un poco
@@ -191,17 +191,14 @@ def test_reiniciar_con_palabra_invalida_falla():
     """
     juego = JuegoAhorcado("python")
 
-    # Caso: Espacios (ya existía, pero reforzado)
     with pytest.raises(
         ValueError, match="La palabra no puede contener espacios."
     ):
         juego.reiniciar_con_palabra("ja va")
 
-    # Caso: Vacía (NUEVO)
     with pytest.raises(ValueError, match="La palabra no puede estar vacía."):
         juego.reiniciar_con_palabra("")
 
-    # Caso: Caracteres no alfabéticos (NUEVO)
     with pytest.raises(
         ValueError, match="La palabra solo puede contener letras."
     ):
