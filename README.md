@@ -47,7 +47,7 @@ Esto permitió validar el comportamiento completo de la app: lógica, interfaz y
 
 ## 🔄 Trabajo en Mini Sprints
 
-l trabajo se organizó en **sprints cortos por clase**, que incluyeron:
+El trabajo se organizó en **sprints cortos por clase**, que incluyeron:
 
 - 🗂️ Planificación  
 - 🧑‍💻 Desarrollo  
