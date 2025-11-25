@@ -2,8 +2,11 @@
 
 Este proyecto corresponde al desarrollo del clásico **Juego del Ahorcado**, realizado en la cátedra de **Metodologías Ágiles** de la UTN Rosario por Maria Laura Tulian y Tomas Scarpecci.  
 El objetivo principal fue aplicar prácticas modernas de desarrollo de software mientras construíamos una aplicación simple pero completa.
+---
 
+## 🖼️ Imagen del proyecto
 ![Imagen del Ahorcado](https://github.com/tomasscarpecci/TP_Metodologias_Agiles/blob/main/ImagenAhorcado.jpg)
+
 ---
 
 ## 🎯 Objetivo
